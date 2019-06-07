@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles/App.scss';
-import { Route, Link, HashRouter } from 'react-router-dom';
+import { Route, HashRouter } from 'react-router-dom';
 import Layout from './Layout';
+import Home from './Home';
 
-const Home = () => <div>Home</div>;
 const About = () => <div>About</div>;
 
 const App: React.FC = () => {
@@ -13,10 +13,6 @@ const App: React.FC = () => {
         <HashRouter basename="/">
             <Layout>
                 <div>
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/about">About</Link></li>
-                    </ul>
                     {_getRoutes()}
                 </div>
             </Layout>
