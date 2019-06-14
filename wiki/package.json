@@ -4,6 +4,7 @@
   "homepage": "http://wiki.olegkrysko.com",
   "private": true,
   "dependencies": {
+    "@octokit/rest": "^16.28.1",
     "@types/bootstrap": "^4.3.0",
     "@types/jest": "24.0.13",
     "@types/node": "12.0.7",
@@ -15,6 +16,7 @@
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-markdown": "^4.0.8",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "typescript": "3.5.1"
