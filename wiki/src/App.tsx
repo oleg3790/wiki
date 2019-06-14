@@ -3,12 +3,9 @@ import './styles/App.scss';
 import { Route, HashRouter } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home';
-
-const About = () => <div>About</div>;
+import DotNetTechnologies from './pages/dot_net_tech/DotNetTechnologies';
 
 const App: React.FC = () => {
-
-
     return (
         <HashRouter basename="/">
             <Layout>
@@ -24,7 +21,7 @@ const _getRoutes = () => {
     return (
         <div>
             <Route exact path="/" component={Home}/>
-            <Route path="/about" component={About}/>
+            <Route path="/dot-net-technologies" component={DotNetTechnologies}/>
         </div>
     );
 }

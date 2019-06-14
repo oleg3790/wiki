@@ -15,3 +15,9 @@ $main-color: rgb(48, 50, 54);
 #main-logo {
     margin: 0 10px 10px;
 }
+
+#navigation {
+    padding: 50px 10px;
+    border-right: 1px solid darken($light-color, 13);
+    height: calc(100vh - 60px);
+}
