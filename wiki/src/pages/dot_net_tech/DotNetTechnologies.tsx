@@ -12,16 +12,16 @@ class DotNetTechnologies extends React.Component<any, any> {
 
     async componentDidMount() {
         const service = new GitHubContentService()
-        const result = await service.getSiteContents();
+        const result = await service.getSiteContentTree();
         this.setState({ result: result });
     }
 
     render() {
         return (
             <ul>
-                {this.state.result 
+                {/*this.state.result 
                     ? this.state.result.map((x: ContentNode) => <li>{x.Type} - {x.Path} - {x.DownloadUrl}</li>)
-                    : null}
+                : null*/}
             </ul>);
     }
 }

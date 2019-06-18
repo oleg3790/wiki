@@ -1,5 +1,6 @@
 import Octokit from '@octokit/rest';
 import ContentNode from './ContentNode';
+import { node } from 'prop-types';
 
 export default class GitHubContentService {
     private readonly _octokit: Octokit;
@@ -8,26 +9,27 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: '0e4526918739e995ff7371a4abf6a5d3c4d833ce',
+            auth: '80521623c6d28b90ca099ffc4d075d908c62a685',
             userAgent: 'okryskowiki',
             baseUrl: 'https://api.github.com',
         })
     }
 
     /**
-     * Get site content tree
+     * Gets an object that models the site-content branch's content
      */
-    public async getSiteContents(): Promise<any> {
-        return await this._buildContentTree('wiki', 0, []);
+    public async getSiteContentTree(): Promise<object|null> {
+        const nodes = await this._getContentNodes('wiki', 0, []);
+        return nodes.length > 0 ? this._buildContentTree(nodes) : null;
     }
 
     /**
-     * Recursively builds a content tree object based off of each resource node in the site-content branch 
+     * Recursively gets all content nodes based off of each resource node in the site-content branch 
      * @param pathNode Branch resource path
      * @param contentCounter Used to remember count state during recursion
      * @param tmpResultObj Object used to hold the result during the build
      */
-    private async _buildContentTree(pathNode: string, contentCounter: number, tmpResultObj: ContentNode[]): Promise<ContentNode[]> {
+    private async _getContentNodes(pathNode: string, contentCounter: number, tmpResultObj: ContentNode[]): Promise<ContentNode[]> {
         try {
             const response = await this._octokit.repos.getContents({ 
                 owner: this._owner,
@@ -41,7 +43,7 @@ export default class GitHubContentService {
                 
                     for (let i = contentCounter; i <= tmpResultObj.length; i++) {
                         const encodedUri = encodeURIComponent(tmpResultObj[i].Path);
-                        return await this._buildContentTree(encodedUri, i + 1, tmpResultObj);
+                        return await this._getContentNodes(encodedUri, i + 1, tmpResultObj);
                     }  
                 } else {
                     return tmpResultObj;
@@ -54,5 +56,26 @@ export default class GitHubContentService {
             console.log(`GitHubContentService.doGetContents Error - ${ex.message}`);
             return [];
         }
+    }
+
+    private _buildContentTree(nodes: ContentNode[]): object {
+        let contentTree: any = {};
+
+        // We only care about files as they will contain all directories in the path anyway
+        nodes
+            .filter(n => n.Type === 'file')
+            .forEach(n => {
+                const levels = n.Path.split('/');
+                let indexFile = levels.pop();
+                
+                if (indexFile && indexFile.match(/index\.md/i)) {
+                    levels.reduce((prev, lvl, i) => {
+                        return prev[lvl] = (levels.length - i - 1) 
+                                ? prev[lvl] || {} 
+                                : (prev[lvl] || []).concat(n.DownloadUrl);                 
+                    }, contentTree);
+                }
+        });        
+        return contentTree;
     }
 }
