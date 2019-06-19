@@ -1,6 +1,5 @@
 import Octokit from '@octokit/rest';
 import ContentNode from './ContentNode';
-import { node } from 'prop-types';
 
 export default class GitHubContentService {
     private readonly _octokit: Octokit;
@@ -9,7 +8,7 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: '',
+            auth: '5332ea7199a0349c31ba6d98620f931bbb071f8e',
             userAgent: 'okryskowiki',
             baseUrl: 'https://api.github.com',
         })
