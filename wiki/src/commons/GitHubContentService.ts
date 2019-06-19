@@ -9,7 +9,7 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: '80521623c6d28b90ca099ffc4d075d908c62a685',
+            auth: '',
             userAgent: 'okryskowiki',
             baseUrl: 'https://api.github.com',
         })
@@ -29,7 +29,7 @@ export default class GitHubContentService {
      * @param contentCounter Used to remember count state during recursion
      * @param tmpResultObj Object used to hold the result during the build
      */
-    private async _getContentNodes(pathNode: string, contentCounter: number, tmpResultObj: ContentNode[]): Promise<ContentNode[]> {
+    private async _getContentNodes(pathNode: string, contentCounter: number, initialContenNodes: ContentNode[]): Promise<ContentNode[]> {
         try {
             const response = await this._octokit.repos.getContents({ 
                 owner: this._owner,
@@ -38,20 +38,39 @@ export default class GitHubContentService {
             });
 
             if (response.status === 200) {
-                if (response.data.length !== undefined && response.data.length > 0) {
-                    (response.data as any[]).forEach((node) => tmpResultObj.push(new ContentNode(node)));
-                
-                    for (let i = contentCounter; i <= tmpResultObj.length; i++) {
-                        const encodedUri = encodeURIComponent(tmpResultObj[i].Path);
-                        return await this._getContentNodes(encodedUri, i + 1, tmpResultObj);
-                    }  
-                } else {
-                    return tmpResultObj;
-                }        
+                let tmpWorkItems: any[] = [];
+                let exit = false;
+                // Check if response data is array or object as response data is object when there is no other dir nodes under the content
+                if (Array.isArray(response.data)) {
+                    tmpWorkItems = response.data;
+                } else if (typeof response.data === 'object') {
+                    tmpWorkItems.push(response.data);
+                }
+
+                tmpWorkItems.forEach(workItem => {
+                    const contentNode = new ContentNode(workItem)
+                    // Recusion exit condition: dont add existing nodes to collection
+                    if (this._contentNodeExists(initialContenNodes, contentNode)) {
+                        exit = true;
+                        return;
+                    }
+                    initialContenNodes.push(new ContentNode(workItem));                    
+                });
+
+                if (exit) {
+                    return initialContenNodes;
+                }
+
+                for (let i = contentCounter; i < initialContenNodes.length; i++) {
+                    if (initialContenNodes[i].Type !== 'file') {
+                        const encodedUri = encodeURIComponent(initialContenNodes[i].Path);
+                        return await this._getContentNodes(encodedUri, i + 1, initialContenNodes);
+                    }
+                }         
             } else {
                 console.log(`GitHub API responded with ${response.status} with ${response.data.length} data elements`);
             }
-            return tmpResultObj;
+            return initialContenNodes;
         } catch (ex) {
             console.log(`GitHubContentService.doGetContents Error - ${ex.message}`);
             return [];
@@ -60,22 +79,30 @@ export default class GitHubContentService {
 
     private _buildContentTree(nodes: ContentNode[]): object {
         let contentTree: any = {};
-
-        // We only care about files as they will contain all directories in the path anyway
+        console.log(nodes.filter(n => n.Type === 'file'));
         nodes
             .filter(n => n.Type === 'file')
             .forEach(n => {
-                const levels = n.Path.split('/');
-                let indexFile = levels.pop();
+                const pathLevels = n.Path.split('/');
+                let indexFile = pathLevels.pop();
                 
                 if (indexFile && indexFile.match(/index\.md/i)) {
-                    levels.reduce((prev, lvl, i) => {
-                        return prev[lvl] = (levels.length - i - 1) 
-                                ? prev[lvl] || {} 
-                                : (prev[lvl] || []).concat(n.DownloadUrl);                 
+                    pathLevels.reduce((prev, path, i) => {
+                        return prev[path] = (pathLevels.length - i - 1) 
+                                ? prev[path] || {} 
+                                : (prev[path] || []).concat(n.DownloadUrl);                 
                     }, contentTree);
                 }
         });        
         return contentTree;
+    }
+
+    /**
+     * Check if node exists in contentNodes
+     * @param contentNodes 
+     * @param node 
+     */
+    private _contentNodeExists(contentNodes: ContentNode[], node: ContentNode) {
+        return contentNodes.filter(n => n.Path === node.Path).length > 0;
     }
 }
