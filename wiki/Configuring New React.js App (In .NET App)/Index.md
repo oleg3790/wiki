@@ -1,5 +1,5 @@
 ## Overview
-There are various ways to configure React to work client side, one can add the CDN scripts to their HTML and start writing React in minutes; however, this option poses some challenges when you want to be productive and organize your project in a salable manner. 
+There are various ways to configure React to work client side, one can add the CDN scripts to their HTML and start writing React in minutes; however, this option poses some challenges when you want to be productive and organize your project in a scalable manner. 
 <br/><br/>
 One of the best ways to setup React is so that you can utilize JSX and also bundle your code; and for this we will be using Babel for compiling and Webpack for bundling. To manage the packages, we will be using NodeJS NPM (Node Package Manager).
 
