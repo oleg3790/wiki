@@ -3,7 +3,7 @@ import Navigation from './Navigation';
 import logo from './images/logo.png';
  
 interface ILayoutProps {
-    navTree: object|null;
+    contentTree: object|null;
     children: JSX.Element|JSX.Element[];
 }
 
@@ -18,7 +18,7 @@ export default function Layout(props: ILayoutProps) {
             </div>
             <div className="row">
                 <div className="col-xl-3 col-sm-5">
-                    <Navigation navTree={props.navTree}/>
+                    <Navigation contentTree={props.contentTree}/>
                 </div>
                 <div className=" col-xl-9 col-sm-7 mt-3 pt-3">
                     {props.children}
