@@ -1,7 +1,11 @@
-This repo is available as a GitHub Pages site built with React using Typescript. GH Pages content is configured to be fetched from the gh-pages branch. 
+## Overview
+This solution uses React w/Typescript to build a GitHub Pages site that renders site navigation and [markdown](https://www.markdownguide.org/basic-syntax/) content (of each navigational item) using the GitHub API off of a `site-content` branch in the repository.
 
-## Site content
-This project uses a tree navigation which is associated with a specific nav page that's pulled from a `site-content` branch. The site-content branch should only have directories with an `Index.md` file under the directory that the page should load to. The example below models the standard structure that the `site-content` branch should follow:
+## What problem does this solve
+Having a basic (blog, wiki, etc.) GH Pages site with a tree navigation is somewhat of a hassle to maintain as seperate HTML files. If you want to host a site with GH Pages and leverage the Markdown syntax, while at the same time, add content to the site without creating new html files; this solution solves that problem. Markdown syntax and HTML is supported inside the `Index.md` file which allows you to add content to the `site-content` branch directly and used GitHub's Markdown preview when adding page content to the `Index.md` content files.
+
+## Site content model
+Given that this solution will look at a `site-content` branch in the repo in which it is tied to, you will need to manually instantiate that branch and setup the layout to model the below structure. Each node in the site navigation is associated with a directory name for which the associated content should be an `Index.md` file. 
 
 ```
 -root repo dir
@@ -14,4 +18,4 @@ This project uses a tree navigation which is associated with a specific nav page
 ```
 
 ## Deployment
-To deploy a new version of the site, run `npm run deploy`. This will create a production build of the assets and publish to a `gh-pages` branch on the remote
+To deploy the React app to your site, run `npm run deploy`. This will create a production build of the assets and publish to a `gh-pages` branch on the remote. (Make sure to have the GitHub repo setting set to pull from the `gh-pages` branch)
