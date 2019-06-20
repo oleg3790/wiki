@@ -1,6 +1,8 @@
 $gray: gray;
 $light-color: white;
 $main-color: rgb(48, 50, 54);
+$code-bg-color: #2a274a;
+$csharp-code-bg-color: #214d3f;
 
 #main-banner {
     height: 60px;
@@ -20,4 +22,11 @@ $main-color: rgb(48, 50, 54);
     padding: 50px 10px;
     border-right: 1px solid darken($light-color, 13);
     height: calc(100vh - 60px);
+}
+
+pre {
+    color: $light-color !important;
+    background-color: $code-bg-color;
+    padding: 10px 15px;
+    border-radius: 5px;
 }
