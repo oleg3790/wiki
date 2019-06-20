@@ -27,7 +27,7 @@ export default class NodeDetails extends React.Component<INodeDetailProps, INode
     render() {
         return (
             <div>
-                {this.state.content && <ReactMarkdown source={this.state.content as string}/>}
+                {this.state.content && <ReactMarkdown source={this.state.content as string} escapeHtml={false}/>}
             </div>
         );
     }
