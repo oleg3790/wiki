@@ -1,38 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GitHubContentService from './commons/GitHubContentService';
 
-interface INavigationState {
+interface INavigationProps {
     navTree: object|null;
 }
 
-export default class Navigation extends React.Component<any,INavigationState> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            navTree: null
-        }
-    }
-
-    async componentWillMount() {
-        const ghContentService = new GitHubContentService();
-        const tree = await ghContentService.getSiteContentTree();
-        this.setState({ navTree: tree });
-    }
+const Navigation = (props: INavigationProps): JSX.Element => {    
+    const _buildLinks = (navTree: object, initialLinks: JSX.Element[]): JSX.Element[] =>  {
+        Object.entries(navTree).forEach(([key, value]) => {
+            if (typeof value === 'string') {
+                return;
+            }
+            initialLinks.push(<li key={key} className="nav-item"><Link className="nav-link" to={`/${value.UrlPath ? value.UrlPath : "error"}`}>{key}</Link></li>)
+            return _buildLinks(value, initialLinks);
+        });
+        return initialLinks;
+    };
     
-    render() {
-        return (
-            <div id="navigation">
-                <ul className="nav flex-column">
-                    {this.state.navTree && this.state.navTree}
-                    <li className="nav-item">
-                        <Link to="/" className="nav-link">Home</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link to="/dot-net-technologies" className="nav-link">.NET Technologies</Link>
-                    </li>
-                </ul>
-            </div>
-        );
-    }
+    return (
+        <div id="navigation">
+            <ul className="nav flex-column">
+                {props.navTree && _buildLinks(props.navTree, [])}
+            </ul>
+        </div>
+    );
 } 
+
+export default Navigation;

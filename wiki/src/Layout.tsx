@@ -2,7 +2,12 @@ import React from 'react';
 import Navigation from './Navigation';
 import logo from './images/logo.png';
  
-export default function Layout(props: any) {
+interface ILayoutProps {
+    navTree: object|null;
+    children: JSX.Element|JSX.Element[];
+}
+
+export default function Layout(props: ILayoutProps) {
     return (
         <div className="container-fluid">
             <div id="main-banner" className="row">
@@ -13,7 +18,7 @@ export default function Layout(props: any) {
             </div>
             <div className="row">
                 <div className="col-xl-3 col-sm-5">
-                    <Navigation/>
+                    <Navigation navTree={props.navTree}/>
                 </div>
                 <div className=" col-xl-9 col-sm-7 mt-3 pt-3">
                     {props.children}
