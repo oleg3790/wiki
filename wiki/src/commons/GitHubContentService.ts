@@ -8,7 +8,7 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: '',
+            auth: 'a45b25f78e4950937aaa98ddc1d712b8ba4b4bb4',
             userAgent: 'okryskowiki',
             baseUrl: 'https://api.github.com',
         })
@@ -78,7 +78,7 @@ export default class GitHubContentService {
 
     private _buildContentTree(nodes: ContentNode[]): object {
         let contentTree: any = {};
-        console.log(nodes.filter(n => n.Type === 'file'));
+
         nodes
             .filter(n => n.Type === 'file')
             .forEach(n => {
@@ -87,9 +87,12 @@ export default class GitHubContentService {
                 
                 if (indexFile && indexFile.match(/index\.md/i)) {
                     pathLevels.reduce((prev, path, i) => {
-                        return prev[path] = (pathLevels.length - i - 1) 
-                                ? prev[path] || {} 
-                                : (prev[path] || []).concat(n.DownloadUrl);                 
+                        if (pathLevels.length - i - 1) {
+                            prev[path] = prev[path] || {}
+                        } else {
+                            prev[path] = prev[path] || { DownloadUrl: n.DownloadUrl, UrlPath: this._toUrlSafePath(path) };
+                        }
+                        return prev[path];                 
                     }, contentTree);
                 }
         });        
@@ -103,5 +106,20 @@ export default class GitHubContentService {
      */
     private _contentNodeExists(contentNodes: ContentNode[], node: ContentNode) {
         return contentNodes.filter(n => n.Path === node.Path).length > 0;
+    }
+
+    private _toUrlSafePath(pathElement: string): string {
+        const regexReplacements = [
+            {from: /c#/g, to: 'c-sharp'},
+            {from: /\.+/g, to: 'dot'},
+            {from: /\s{2,}/g, to: ' '},
+            {from: /[\s/\\]+/g, to: '-'},
+            {from: /[()+~=!@#$%^&*{}?]+/g, to: ''},
+        ];
+
+        regexReplacements.forEach(r => {
+            pathElement = pathElement.toLowerCase().replace(r.from, r.to);
+        })
+        return pathElement;
     }
 }
