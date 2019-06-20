@@ -1,6 +1,6 @@
 At times you will need to add additional config files (i.e. such as when you need to store app secrets that are not checked into source control). 
 
-To do this, add the following configuration into `Program.cs`
+<p>To do this, add the following configuration into `Program.cs`</p>
 
 ```c#
 public class Program
