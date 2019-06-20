@@ -13,8 +13,8 @@ One of the most well-known IDEs (Integrated Development Environments) for .NET d
 
 There are 2 .NET versions that are used for different tasks; .NET Core and .NET Frmework
 
-> .NET Core - Used for cross-platform (Linux, Mac, & Windows) development
+**.NET Core** - Used for cross-platform (Linux, Mac, & Windows) development
 
-> .NET Framework - Used for only Windows development
+**.NET Framework** - Used for only Windows development
 
 If using Visual Studio, the installer will prompt for various additions to be added to the installation package. If a specific .NET version (whether it be Core or Framework) is not found in your installation, you can download it [here](https://dotnet.microsoft.com/download)
