@@ -8,7 +8,7 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: 'a45b25f78e4950937aaa98ddc1d712b8ba4b4bb4',
+            auth: '',
             userAgent: 'okryskowiki',
             baseUrl: 'https://api.github.com',
         })
