@@ -1,29 +1,38 @@
 import React from 'react';
 import './styles/App.scss';
-import { Route, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import Layout from './Layout';
-import Home from './Home';
-import DotNetTechnologies from './pages/dot_net_tech/DotNetTechnologies';
+import GitHubContentService from './commons/GitHubContentService';
+import { mapRoutes } from './commons/ContentTreeMapper';
 
-const App: React.FC = () => {
-    return (
-        <HashRouter basename="/">
-            <Layout>
-                <div>
-                    {_getRoutes()}
-                </div>
-            </Layout>
-        </HashRouter>
-    );
+interface IAppState {
+    contentTree: object|null;
 }
 
-const _getRoutes = () => {
-    return (
-        <div>
-            <Route exact path="/" component={Home}/>
-            <Route path="/dot-net-technologies" component={DotNetTechnologies}/>
-        </div>
-    );
-}
+export default class App extends React.Component<any, IAppState> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            contentTree: null
+        }
+    }
 
-export default App;
+    async componentDidMount() {
+        const ghContentService = new GitHubContentService();
+        const tree = await ghContentService.getSiteContentTree();
+        this.setState({ contentTree: tree });
+    }
+
+    render() {
+        const { contentTree } = this.state;
+        return (
+            <HashRouter basename="/">
+                <Layout contentTree={contentTree}>
+                    <div>
+                        {contentTree && mapRoutes(contentTree)}
+                    </div>
+                </Layout>
+            </HashRouter>
+        );
+    }
+}
