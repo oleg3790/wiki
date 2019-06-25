@@ -31,7 +31,9 @@ export const getRouteLinks = (contentTree: object, initialLinks: JSX.Element[] =
         if (typeof value === 'string') {
             return;
         }
-        initialLinks.push(<li key={key} className="nav-item"><Link className="nav-link" to={`/${value.UrlPath ? value.UrlPath : "error"}`}>{key}</Link></li>)
+        if (value.UrlPath) {
+            initialLinks.push(<li key={key} className="nav-item"><Link className="nav-link" to={`/${value.UrlPath}`}>{key}</Link></li>)
+        }
         return getRouteLinks(value, initialLinks);
     });
     return initialLinks;
