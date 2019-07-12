@@ -4,9 +4,10 @@ import { HashRouter } from 'react-router-dom';
 import Layout from './Layout';
 import GitHubContentService from './commons/GitHubContentService';
 import { mapRoutes } from './commons/ContentTreeMapper';
+import { IContentTree } from './commons/ContentTree';
 
 interface IAppState {
-    contentTree: object|null;
+    contentTree: IContentTree;
 }
 
 export default class App extends React.Component<any, IAppState> {

@@ -2,18 +2,19 @@ import React from 'react';
 import { Route } from "react-router";
 import NodeDetails from "./NodeDetails";
 import { Link } from 'react-router-dom';
+import { IContentTree } from './ContentTree';
 
 /**
  * Recursively maps routes, using the content tree
  * @param content 
  * @param initialRoutes Any initial routes to be passed 
  */
-export const mapRoutes = (contentTree: any, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
-    (contentTree.children as Array<any>).forEach(node => {
-        if (node.DownloadUrl && node.UrlPath) {
+export const mapRoutes = (contentTree: IContentTree, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
+    contentTree.children.forEach(node => {
+        if (node.downloadUrl && node.urlPath) {
             initialRoutes.push(
-                <Route key={node.UrlPath} path={`/${node.UrlPath}`} 
-                       render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.DownloadUrl}/>}/>);
+                <Route key={node.urlPath} path={`/${node.urlPath}`} 
+                       render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.downloadUrl}/>}/>);
         }        
         return mapRoutes(node, initialRoutes);
     });
