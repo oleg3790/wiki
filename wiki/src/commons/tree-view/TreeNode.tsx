@@ -17,10 +17,15 @@ interface ITreeNodeState {
 export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeState> {  
     constructor(props: ITreeNodeProps) {
         super(props);
+        this._handleCollapseToggle = this._handleCollapseToggle.bind(this);
 
         this.state = {
             collapsed: false
         }
+    }
+
+    private _handleCollapseToggle = (e: React.MouseEvent) => {
+        this.setState({ collapsed: !this.state.collapsed });
     }
     
     render(): JSX.Element[] {
@@ -31,8 +36,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
             return childNodes.map(node => (
                 <ul key={node.name} className={`nav-item ${className}`}>
                     <div className="row no-gutters pt-1 pb-1">
-                        
-                        <span className="col-1 text-center">
+                        <span className="col-1 text-center" onClick={this._handleCollapseToggle}>
                         {(node.children && node.children.length) 
                             ? <FontAwesomeIcon icon={collapsed ? faPlus : faMinus} size="sm"/>
                             : null}
