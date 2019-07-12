@@ -8,15 +8,14 @@ import { Link } from 'react-router-dom';
  * @param content 
  * @param initialRoutes Any initial routes to be passed 
  */
-export const mapRoutes = (contentTree: object, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
-    Object.entries(contentTree).forEach(([key, value]) => {
-        if (typeof value === 'string') {
-            return initialRoutes;
-        }
-        initialRoutes.push(
-            <Route key={key} path={`/${value.UrlPath ? value.UrlPath : "error"}`} 
-                   render={(routeProps) => <NodeDetails {...routeProps} contentUrl={value.DownloadUrl ? value.DownloadUrl : null}/>}/>);
-        return mapRoutes(value, initialRoutes);
+export const mapRoutes = (contentTree: any, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
+    (contentTree.children as Array<any>).forEach(node => {
+        if (node.DownloadUrl && node.UrlPath) {
+            initialRoutes.push(
+                <Route key={node.UrlPath} path={`/${node.UrlPath}`} 
+                       render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.DownloadUrl}/>}/>);
+        }        
+        return mapRoutes(node, initialRoutes);
     });
     return initialRoutes;
 }
@@ -26,7 +25,21 @@ export const mapRoutes = (contentTree: object, initialRoutes: JSX.Element[] = []
  * @param contentTree 
  * @param initialLinks 
  */
-export const getRouteLinks = (contentTree: object, initialLinks: JSX.Element[] = []): JSX.Element[] =>  {
+export const getRouteLinks = (contentTree: any): JSX.Element =>  {
+    let visualTree = <ul></ul>;
+    (contentTree.children as Array<any>).forEach(node => {
+        let visualParent = <ul></ul>;
+        if (node.children && node.children.length) {
+            return getRouteLinks(node);
+        } else {
+            visualTree = React.cloneElement(visualTree, { children: visualParent });
+            return;
+        }
+        
+    });
+    return visualTree;
+
+    /*
     Object.entries(contentTree).forEach(([key, value]) => {
         if (typeof value === 'string') {
             return;
@@ -37,4 +50,5 @@ export const getRouteLinks = (contentTree: object, initialLinks: JSX.Element[] =
         return getRouteLinks(value, initialLinks);
     });
     return initialLinks;
+    */
 };
