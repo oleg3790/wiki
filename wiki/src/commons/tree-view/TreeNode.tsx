@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '../../styles/TreeView.scss';
+import '../../styles/App.scss';
 import { Link } from 'react-router-dom';
 import ContentTree from '../ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,7 +34,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
 
         if (node) {            
             return (
-                <ul key={node.name} className={`nav-item ${className}`}>
+                <ul key={node.name} className={`nav-item disable-selection ${className}`}>
                     <div className="row no-gutters pt-1 pb-1">
                         <span className="col-1 text-center" onClick={this._handleCollapseToggle}>
                         {(node.children && node.children.length) 
