@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 interface ITreeNodeProps {
-    childNodes: ContentTree[];
+    node: ContentTree;
     className?: string;
 }
 
@@ -17,7 +17,6 @@ interface ITreeNodeState {
 export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeState> {  
     constructor(props: ITreeNodeProps) {
         super(props);
-        this._handleCollapseToggle = this._handleCollapseToggle.bind(this);
 
         this.state = {
             collapsed: false
@@ -28,12 +27,12 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
         this.setState({ collapsed: !this.state.collapsed });
     }
     
-    render(): JSX.Element[] {
-        const { childNodes, className } = this.props;
+    render(): JSX.Element {
+        const { node, className } = this.props;
         const { collapsed } = this.state;
 
-        if (childNodes && childNodes.length) {            
-            return childNodes.map(node => (
+        if (node) {            
+            return (
                 <ul key={node.name} className={`nav-item ${className}`}>
                     <div className="row no-gutters pt-1 pb-1">
                         <span className="col-1 text-center" onClick={this._handleCollapseToggle}>
@@ -45,11 +44,15 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
                     </div>
                     
                     {(node.children && node.children.length)
-                        ? <TreeNode childNodes={node.children} className={`pl-4 ${collapsed && "tv-collapsed"}`}/>
+                        ? this.recurseChildren(node.children)
                         : null}
                 </ul>
-            ));
+            );
         }
-        return;
+        return null;
+    }
+
+    recurseChildren = (childrenNodes: ContentTree[]) => {
+        return childrenNodes.map(node => <TreeNode node={node} className={`pl-4 ${this.state.collapsed && "tv-collapsed"}`}/>)
     }
 }
