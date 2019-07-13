@@ -8,20 +8,22 @@ interface ITreeViewProps {
 }
 
 export default class TreeView extends React.Component<ITreeViewProps, {}> {
-    constructor(props: ITreeViewProps) {
-        super(props);
-    }
-
     render() {
         const { contentTree } = this.props;
 
         return (
             <div>
                 {(contentTree && contentTree.children && contentTree.children.length)
-                    ? <TreeNode childNodes={contentTree.children} className="pl-0"/>
+                    ? this.mapToTreeNodes(contentTree)
                     : null
                 }
             </div>
         );
+    }
+
+    mapToTreeNodes = (contentTree: ContentTree): JSX.Element[] => {
+        return contentTree.children.map(node => {
+            return <TreeNode node={node} className="pl-0"/>;
+        });
     }
 }
