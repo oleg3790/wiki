@@ -11,7 +11,7 @@ const TreeView = (props: ITreeViewProps) => {
 
     const mapToTreeNodes = (contentTree: ContentTree): JSX.Element[] => {
         return contentTree.children.map(node => {
-            return <TreeNode node={node} className="pl-0"/>;
+            return <TreeNode key={node.name} node={node} className="pl-0"/>;
         });
     }
 
