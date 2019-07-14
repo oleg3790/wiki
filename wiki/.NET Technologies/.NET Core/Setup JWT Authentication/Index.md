@@ -86,6 +86,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ## Usage
 You will need to add a key "authSecret" with a value that will act as the authentication key to your config file (usually kept in a secrets config file, not checked into source control)
 
-Add the attribute `\[Authorize\]` to the controller class you would like to activate authentication for. 
+Add the attribute `[Authorize]` to the controller class you would like to activate authentication for. 
 
-For methods that you would like to access without having to authenticate, use the attribute `\[AllowAnonymous\]`
+For methods that you would like to access without having to authenticate, use the attribute `[AllowAnonymous]`
