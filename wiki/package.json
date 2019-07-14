@@ -4,6 +4,9 @@
   "homepage": "http://wiki.olegkrysko.com",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "@octokit/rest": "^16.28.1",
     "@types/bootstrap": "^4.3.0",
     "@types/jest": "24.0.13",

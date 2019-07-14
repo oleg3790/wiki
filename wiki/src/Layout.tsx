@@ -1,9 +1,10 @@
 import React from 'react';
 import Navigation from './Navigation';
 import logo from './images/logo.png';
+import ContentTree from './commons/ContentTree';
  
 interface ILayoutProps {
-    contentTree: object|null;
+    contentTree: ContentTree;
     children: JSX.Element|JSX.Element[];
 }
 

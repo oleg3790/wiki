@@ -1,5 +1,6 @@
 import Octokit from '@octokit/rest';
 import ContentNode from './ContentNode';
+import ContentTree from './ContentTree';
 
 export default class GitHubContentService {
     private readonly _octokit: Octokit;
@@ -8,7 +9,7 @@ export default class GitHubContentService {
 
     constructor() {
         this._octokit = new Octokit({
-            auth: '',
+            auth: '0f7a8817210b1931ca09e90ecb34b967bed11514',
             userAgent: 'wiki',
             baseUrl: 'https://api.github.com',
         })
@@ -17,7 +18,7 @@ export default class GitHubContentService {
     /**
      * Gets an object that models the site-content branch's content
      */
-    public async getSiteContentTree(): Promise<object|null> {
+    public async getSiteContentTree(): Promise<ContentTree> {
         const nodes = await this._getContentNodes('wiki', 0, []);
         return nodes.length > 0 ? this._buildContentTree(nodes) : null;
     }
@@ -76,8 +77,8 @@ export default class GitHubContentService {
         }
     }
 
-    private _buildContentTree(nodes: ContentNode[]): object {
-        let contentTree: any = {};
+    private _buildContentTree(nodes: ContentNode[]): ContentTree {
+        let contentTree: ContentTree = new ContentTree();
 
         nodes
             .filter(n => n.Type === 'file')
@@ -86,13 +87,18 @@ export default class GitHubContentService {
                 let indexFile = pathLevels.pop();
                 
                 if (indexFile && indexFile.match(/index\.md/i)) {
-                    pathLevels.reduce((prev, path, i) => {
+                    pathLevels.reduce((prev, path, i) => {                      
                         if (pathLevels.length - i - 1) {
-                            prev[path] = prev[path] || {}
+                            if (prev.children && prev.children.length) {
+                                return (prev.children as Array<any>).find(c => c.name === path) || prev;
+                            }
+
+                            prev.name = prev.name || path;
+                            prev.children = prev.children || [];                            
                         } else {
-                            prev[path] = prev[path] || { DownloadUrl: n.DownloadUrl, UrlPath: this._toUrlSafePath(path) };
+                            prev.children.push({ name: path, children: [], downloadUrl: n.DownloadUrl, urlPath: this._toUrlSafePath(path) });
                         }
-                        return prev[path];                 
+                        return prev; 
                     }, contentTree);
                 }
         });        
