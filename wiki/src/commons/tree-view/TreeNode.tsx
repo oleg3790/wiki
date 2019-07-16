@@ -54,6 +54,6 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
     }
 
     recurseChildren = (childrenNodes: ContentTree[]) => {
-        return childrenNodes.map(node => <TreeNode node={node} className={`pl-4 ${this.state.collapsed && "tv-collapsed"}`}/>)
+        return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "tv-collapsed"}`}/>)
     }
 }

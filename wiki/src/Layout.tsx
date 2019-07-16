@@ -2,10 +2,12 @@ import React from 'react';
 import Navigation from './Navigation';
 import logo from './images/logo.png';
 import ContentTree from './commons/ContentTree';
+import BusyMask from './commons/BusyMask';
  
 interface ILayoutProps {
     contentTree: ContentTree;
     children: JSX.Element|JSX.Element[];
+    isBusy: boolean;
 }
 
 export default function Layout(props: ILayoutProps) {
@@ -17,14 +19,19 @@ export default function Layout(props: ILayoutProps) {
                     <h3 id="main-title" className="d-inline-block">Technological Wiki</h3>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-xl-3 col-sm-5">
-                    <Navigation contentTree={props.contentTree}/>
-                </div>
-                <div className=" col-xl-9 col-sm-7 mt-3 pt-3">
-                    {props.children}
-                </div>
-            </div>            
+            {props.isBusy
+                ? <BusyMask isBusy={props.isBusy}/>
+                : (
+                    <div className="row">               
+                        <div className="col-xl-3 col-sm-5">
+                            <Navigation contentTree={props.contentTree}/>
+                        </div>
+                        <div className=" col-xl-9 col-sm-7 mt-3 pt-3">
+                            {props.children}
+                        </div>
+                    </div>  
+                )}
+                      
         </div>
     );
 }
