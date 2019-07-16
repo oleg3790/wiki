@@ -3,6 +3,7 @@ $light-color: white;
 $main-color: rgb(48, 50, 54);
 $code-bg-color: #2a274a;
 $csharp-code-bg-color: #214d3f;
+$busy-mask: #9090900a;
 
 #main-banner {
     height: 60px;
@@ -38,6 +39,16 @@ pre {
     -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
     -webkit-user-select: none; /* Chrome, Safari, and Opera */
     -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+
+#busy-mask {
+    position: absolute;
+    z-index: 2;
+    background-color: $busy-mask;
+    height: calc(100% - 60px);
+    top: 60px;
+    left: 0;
+    width: 100%;
 }
 
 .node-details {

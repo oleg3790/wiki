@@ -8,20 +8,28 @@ import NodeDetails from './commons/NodeDetails';
 
 interface IAppState {
     contentTree: IContentTree;
+    isBusy: boolean;
 }
 
 export default class App extends React.Component<any, IAppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            contentTree: null
+            contentTree: null,
+            isBusy: false,
         }
     }
 
     async componentDidMount() {
+        this.toggleIsBusy();
         const ghContentService = new GitHubContentService();
         const tree = await ghContentService.getSiteContentTree();
         this.setState({ contentTree: tree });
+        this.toggleIsBusy();
+    }
+
+    toggleIsBusy = () => {
+        this.setState({ isBusy: !this.state.isBusy });
     }
 
     /**
@@ -42,10 +50,10 @@ export default class App extends React.Component<any, IAppState> {
     }
 
     render() {
-        const { contentTree } = this.state;
+        const { contentTree, isBusy } = this.state;
         return (
             <HashRouter basename="/">
-                <Layout contentTree={contentTree}>
+                <Layout contentTree={contentTree} isBusy={isBusy}>
                     <div>
                         {contentTree && this.mapRoutes(contentTree)}
                     </div>
