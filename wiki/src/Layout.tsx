@@ -20,7 +20,7 @@ export default function Layout(props: ILayoutProps) {
                 </div>
             </div>
             {props.isBusy
-                ? <BusyMask isBusy={props.isBusy}/>
+                ? <BusyMask/>
                 : (
                     <div className="row">               
                         <div className="col-xl-3 col-sm-5">
