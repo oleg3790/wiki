@@ -226,11 +226,11 @@ export const Dashboard = () => {
 ```
 .
   "scripts": {
-    "build:react": "webpack --mode development --config webpack.react.config.js",
-    "build": "webpack --mode development",
-    "start": "electron ./dist/main.js"
+    "build": "webpack --mode production --config webpack.react.config.js && webpack --mode production",
+    "build:dev": "webpack --mode development --config webpack.react.config.js && webpack --mode development",
+    "start": "electron ./dist/main.js",
   },
 .
 ```
 
-11. Execute `npm run build:react` then `npm run build` then `npm run start` >> the app should launch
+11. Execute `npm run build` then `npm run start` >> the app should launch
