@@ -11,7 +11,10 @@ npm i -D electron
 npm i -D typescript tslint prettier webpack webpack-cli html-webpack-plugin @babel/cli @babel/core @babel/preset-env babel-loader @babel/plugin-proposal-class-properties @babel/   plugin-transform-arrow-functions @babel/preset-typescript @babel/preset-react @types/react @types/react-dom
 ```
 ```
-npm i -S react react-dom
+npm i -D style-loader css-loader sass-loader node-sass
+```
+```
+npm i -S react react-dom bootstrap
 ```
 
 ### Setup project structure
@@ -29,7 +32,12 @@ npm i -S react react-dom
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": false
+    "no-consecutive-blank-lines": false,
+    "quotemark": false,
+    "ordered-imports": false,
+    "no-var-requires": false,
+    "no-console": false,
+    "member-ordering": true
   },
   "jsRules": {
     "max-line-length": {
@@ -46,6 +54,7 @@ npm i -S react react-dom
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "jsx": "react",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
@@ -132,35 +141,35 @@ app.on("activate", () => {
 const path = require("path");
 
 const config = {
-  target: "electron-main",
-  devtool: "source-map",
-  entry: "./src/main.ts",
-  output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
+    target: "electron-main",
+    devtool: "source-map",
+    entry: "./src/main.ts",
+    output: {
+        filename: "main.js",
+        path: path.resolve(__dirname, "dist")
+    },
+    module: {
+        rules: [
+        {
+            test: /\.(ts|tsx)$/,
+            exclude: /node_modules/,
+            use: {
+            loader: "babel-loader"
+            }
         }
-      }
-    ]
-  },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"]
-  },
-  node: {
-    __dirname: false,
-    __filename: false
-  }
+        ]
+    },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
+    node: {
+        __dirname: false,
+        __filename: false
+    }
 };
 
 module.exports = (env, argv) => {
-  return config;
+    return config;
 };
 ```
 
@@ -175,28 +184,36 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 const config = {
-  target: "electron-renderer",
-  devtool: "source-map",
-  entry: "./src/app/renderer.tsx",
-  output: {
-    filename: "renderer.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      }
-    ]
-  },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"]
-  },
-  plugins: [htmlPlugin]
+    target: "electron-renderer",
+    devtool: "source-map",
+    entry: "./src/app/renderer.tsx",
+    output: {
+        filename: "renderer.js",
+        path: path.resolve(__dirname, "dist")
+    },
+    module: {
+        rules: [
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader"
+                }
+            },
+            {
+                test: /.s?css$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
+    },
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
+    plugins: [htmlPlugin]
 };
 
 module.exports = (env, argv) => {
@@ -216,6 +233,7 @@ ReactDOM.render(<Dashboard />, document.getElementById('root'));
 9. Create a `components` folder inside of `app` and add a `Dashboard.tsx` file with the following
 ```
 import * as React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const Dashboard = () => {
     return <div>Hello World!</div>;
