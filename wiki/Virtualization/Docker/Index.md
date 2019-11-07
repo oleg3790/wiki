@@ -12,3 +12,9 @@ Now you are ready to start a container, execute `docker run --name <container_na
 * you can assign a port to the container using `-p <local_port>:<container_port>`
 
 Use `docker ps -a` to view your all of your containers and thier statuses
+
+### Publishing to Docker Hub
+To publish your image, the image name should be prefixed with the account you are publishing to `ie. oleg3790/myimage`. 
+
+1. Login to docker using `docker login`
+2. Execute `docker push <user>/<image>:<tag>` to publish
