@@ -24,7 +24,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
         }
     }
 
-    private _handleCollapseToggle = (e: React.MouseEvent) => {
+    handleCollapseToggle = (e: React.MouseEvent) => {
         this.setState({ collapsed: !this.state.collapsed });
     }
     
@@ -36,7 +36,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
             return (
                 <ul key={node.name} className={`nav-item disable-selection ${className}`}>
                     <div className="row no-gutters pt-1 pb-1">
-                        <span className="col-1 text-center" onClick={this._handleCollapseToggle}>
+                        <span className="col-1 text-center pointer" onClick={this.handleCollapseToggle}>
                         {(node.children && node.children.length) 
                             ? <FontAwesomeIcon icon={collapsed ? faChevronRight : faChevronDown} size="sm"/>
                             : null}
