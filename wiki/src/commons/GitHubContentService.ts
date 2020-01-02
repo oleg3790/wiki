@@ -7,12 +7,12 @@ export default class GitHubContentService {
     private _owner = 'oleg3790';
     private _repo = 'wiki';
 
-    constructor() {
+    constructor(auth: string = '') {
         this._octokit = new Octokit({
-            auth: '',
+            auth: auth,
             userAgent: 'wiki',
             baseUrl: 'https://api.github.com',
-        })
+        });
     }
 
     /**

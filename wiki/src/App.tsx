@@ -8,6 +8,7 @@ import NodeDetails from './commons/NodeDetails';
 
 interface IAppState {
     contentTree: IContentTree;
+    isError: boolean;
     isBusy: boolean;
 }
 
@@ -16,15 +17,44 @@ export default class App extends React.Component<any, IAppState> {
         super(props);
         this.state = {
             contentTree: null,
+            isError: false,
             isBusy: false,
         }
     }
 
     async componentDidMount() {
         this.toggleIsBusy();
-        const ghContentService = new GitHubContentService();
-        const tree = await ghContentService.getSiteContentTree();
-        this.setState({ contentTree: tree });
+
+        try {
+            let ghAuth = '';
+            const authResponse = await fetch('http://olegkrysko-wiki-auth.azurewebsites.net/api/key', {
+                method: 'GET',
+                headers: {
+                    'Request-Item': 'ghKey',
+                    'Content-Type': 'text'
+                }
+            });
+    
+            if (authResponse.status == 200) {
+                ghAuth = await authResponse.text();
+                console.debug('auth retrieved successfully');
+            } else {
+                console.log('Could not get auth for gh repo, requests to GH API will be limited');
+            }
+
+            const ghContentService = new GitHubContentService(ghAuth);
+            const tree = await ghContentService.getSiteContentTree();
+
+            if (tree == null) {
+                console.log('No tree content could be loaded');
+                throw null;
+            }
+
+            this.setState({ contentTree: tree });
+        } catch {
+            this.setState({ isError: true });
+        }
+
         this.toggleIsBusy();
     }
 
@@ -50,12 +80,14 @@ export default class App extends React.Component<any, IAppState> {
     }
 
     render() {
-        const { contentTree, isBusy } = this.state;
+        const { contentTree, isBusy, isError } = this.state;
         return (
             <HashRouter basename="/">
                 <Layout contentTree={contentTree} isBusy={isBusy}>
                     <div>
-                        {contentTree && this.mapRoutes(contentTree)}
+                        {isError 
+                            ? <h6 className="text-danger">Could not load content, try again later</h6> 
+                            : (contentTree && this.mapRoutes(contentTree))}
                     </div>
                 </Layout>
             </HashRouter>
