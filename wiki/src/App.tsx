@@ -26,20 +26,24 @@ export default class App extends React.Component<any, IAppState> {
         this.toggleIsBusy();
 
         try {
-            let ghAuth = '';
-            const authResponse = await fetch('http://olegkrysko-wiki-auth.azurewebsites.net/api/key', {
-                method: 'GET',
-                headers: {
-                    'Request-Item': 'ghKey',
-                    'Content-Type': 'text'
+            let ghAuth = localStorage.getItem('auth') || '';
+
+            if (!ghAuth) {
+                const authResponse = await fetch('http://olegkrysko-wiki-auth.azurewebsites.net/api/key', {
+                    method: 'GET',
+                    headers: {
+                        'Request-Item': 'ghKey',
+                        'Content-Type': 'text/plain'
+                    }
+                });
+        
+                if (authResponse.status == 200) {
+                    ghAuth = await authResponse.text();
+                    localStorage.setItem('auth', ghAuth);
+                    console.debug('auth retrieved successfully');
+                } else {
+                    console.log('Could not get auth for gh repo, requests to GH API will be limited');
                 }
-            });
-    
-            if (authResponse.status == 200) {
-                ghAuth = await authResponse.text();
-                console.debug('auth retrieved successfully');
-            } else {
-                console.log('Could not get auth for gh repo, requests to GH API will be limited');
             }
 
             const ghContentService = new GitHubContentService(ghAuth);
