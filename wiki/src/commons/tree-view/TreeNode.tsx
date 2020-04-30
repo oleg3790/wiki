@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ContentTree from '../ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { getNavNodeCollapsedState, cacheNavNodeCollapsedState } from '../../services/LocalCacheService';
 
 interface ITreeNodeProps {
   node: ContentTree;
@@ -20,11 +21,17 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
     super(props);
 
     this.state = {
-      collapsed: false
+      collapsed: true
     }
   }
 
+  componentDidMount() {
+    const cachedState: boolean | null = getNavNodeCollapsedState(this.props.node.name); 
+    this.setState({ collapsed: cachedState === null ? this.state.collapsed : cachedState });
+  }
+
   handleCollapseToggle = (e: React.MouseEvent) => {
+    cacheNavNodeCollapsedState(this.props.node.name, !this.state.collapsed);
     this.setState({ collapsed: !this.state.collapsed });
   }
   
