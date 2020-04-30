@@ -6,57 +6,57 @@ $csharp-code-bg-color: #214d3f;
 $busy-mask: #9090900a;
 
 #main-banner {
-    height: 60px;
-    background-color: $main-color;
+  height: 60px;
+  background-color: $main-color;
 }
 
 #main-title {
-    font-family: Roboto,-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI","Oxygen","Ubuntu","Cantarell","Open Sans",sans-serif;
-    font-weight: 100;
-    color: $light-color;
+  font-family: Roboto,-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI","Oxygen","Ubuntu","Cantarell","Open Sans",sans-serif;
+  font-weight: 100;
+  color: $light-color;
 }
 
 #main-logo {
-    margin: 0 10px 10px;
+  margin: 0 10px 10px;
 }
 
 #navigation {
-    padding: 50px 10px;
-    border-right: 1px solid darken($light-color, 13);
-    height: calc(100vh - 60px);
-    overflow: auto;
+  padding: 50px 10px;
+  border-right: 1px solid darken($light-color, 13);
+  height: calc(100vh - 60px);
+  overflow: auto;
 }
 
 pre {
-    color: $light-color !important;
-    background-color: $code-bg-color;
-    padding: 10px 15px;
-    border-radius: 5px;
+  color: $light-color !important;
+  background-color: $code-bg-color;
+  padding: 10px 15px;
+  border-radius: 5px;
 }
 
 .disable-selection {
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer */
-    -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
-    -webkit-user-select: none; /* Chrome, Safari, and Opera */
-    -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer */
+  -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
 }
 
 #busy-mask {
-    position: absolute;
-    z-index: 2;
-    background-color: $busy-mask;
-    height: calc(100% - 60px);
-    top: 60px;
-    left: 0;
-    width: 100%;
+  position: absolute;
+  z-index: 2;
+  background-color: $busy-mask;
+  height: calc(100% - 60px);
+  top: 60px;
+  left: 0;
+  width: 100%;
 }
 
 .node-details {
-    overflow-y: auto;
-    height: calc(100vh - 100px);
+  overflow-y: auto;
+  height: calc(100vh - 100px);
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
