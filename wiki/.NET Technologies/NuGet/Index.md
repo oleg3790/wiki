@@ -1,0 +1,2 @@
+
+NuGet is a .NET package manager which allows for users to add dependencies to packages that contain libraries of pre-written code. This aims to speed up development time and remove the need to develop certain functionality from scratch.
