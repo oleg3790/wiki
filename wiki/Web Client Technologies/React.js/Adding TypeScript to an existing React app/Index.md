@@ -1,3 +1,5 @@
+Follow the guide in `Configuring new React app (without create-react-app)` to create a new React app, and then modify the app to fulfill the below requirements
+
 #### Required Dependencies
 - react
 - react-dom
@@ -15,10 +17,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   context: __dirname,
-  entry: './rezure/App.tsx',
+  entry: './App.tsx',
   output: {
       path: __dirname + '/dist',
-      filename: 'rezure.js'
+      filename: 'app.js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
@@ -35,10 +37,10 @@ module.exports = {
       ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'Rezure.html',
-      template: 'assets/Index.html'
-    })
+      new HtmlWebpackPlugin({
+          filename: 'Index.html',
+          template: 'assets/Index.html'
+      })
   ]
 }
 ```
@@ -55,7 +57,7 @@ module.exports = {
       "jsx": "react"
   },
   "include": [
-      "rezure/**/*"
+      "app/**/*"
   ],
   "exclude": [
       "node_modules",
