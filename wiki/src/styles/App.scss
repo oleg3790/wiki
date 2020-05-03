@@ -4,6 +4,9 @@ $main-color: rgb(48, 50, 54);
 $code-bg-color: #2a274a;
 $csharp-code-bg-color: #214d3f;
 $busy-mask: #9090900a;
+$font-size-base: 0.8rem;
+
+@import 'bootstrap';
 
 #main-banner {
   height: 60px;
