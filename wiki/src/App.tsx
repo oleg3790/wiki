@@ -3,7 +3,7 @@ import './styles/App.scss';
 import { HashRouter, Route } from 'react-router-dom';
 import Layout from './Layout';
 import GitHubContentService from './commons/GitHubContentService';
-import { IContentTree } from './commons/ContentTree';
+import { IContentTree } from './commons/types/ContentTree';
 import NodeDetails from './commons/NodeDetails';
 
 interface IAppState {

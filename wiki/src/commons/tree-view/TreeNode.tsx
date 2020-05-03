@@ -1,8 +1,6 @@
 import * as React from 'react';
-import '../../styles/TreeView.scss';
-import '../../styles/App.scss';
-import { Link } from 'react-router-dom';
-import ContentTree from '../ContentTree';
+import { NavLink } from 'react-router-dom';
+import ContentTree from '../types/ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { getNavNodeCollapsedState, cacheNavNodeCollapsedState } from '../../services/LocalCacheService';
@@ -48,7 +46,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
               ? <FontAwesomeIcon icon={collapsed ? faChevronRight : faChevronDown} size="sm"/>
               : null}
             </span>
-            <Link className="col-11 nav-link pt-0 pb-1" to={`/${node.urlPath}`}>{node.name}</Link>
+            <NavLink className="col-11 nav-link pt-0 pb-1" activeClassName="selected-nav-link" to={`/${node.urlPath}`}>{node.name}</NavLink>
           </div>
           
           {(node.children && node.children.length)
@@ -61,6 +59,6 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
   }
 
   recurseChildren = (childrenNodes: ContentTree[]) => {
-    return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "tv-collapsed"}`}/>)
+    return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "nav-collapsed"}`}/>)
   }
 }

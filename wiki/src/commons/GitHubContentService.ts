@@ -1,6 +1,6 @@
 import Octokit from '@octokit/rest';
-import ContentNode from './ContentNode';
-import ContentTree from './ContentTree';
+import ContentNode from './types/ContentNode';
+import ContentTree from './types/ContentTree';
 
 export default class GitHubContentService {
   private readonly _octokit: Octokit;

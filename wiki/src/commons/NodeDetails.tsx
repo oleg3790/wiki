@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import '../styles/App.scss';
 
 interface INodeDetailProps {
   contentUrl: string|null;
@@ -27,7 +26,7 @@ export default class NodeDetails extends React.Component<INodeDetailProps, INode
 
   render() {
     return (
-      <div className="node-details">
+      <div className="nav-details">
         {this.state.content && <ReactMarkdown source={this.state.content as string} escapeHtml={false}/>}
       </div>
     );

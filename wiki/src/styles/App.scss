@@ -4,6 +4,9 @@ $main-color: rgb(48, 50, 54);
 $code-bg-color: #2a274a;
 $csharp-code-bg-color: #214d3f;
 $busy-mask: #9090900a;
+$font-size-base: 0.8rem;
+
+@import 'bootstrap';
 
 #main-banner {
   height: 60px;
@@ -52,11 +55,21 @@ pre {
   width: 100%;
 }
 
-.node-details {
+.pointer {
+  cursor: pointer;
+}
+
+.selected-nav-link {
+  font-weight: bold;
+}
+
+// Nav styles
+.nav-details {
   overflow-y: auto;
   height: calc(100vh - 100px);
 }
 
-.pointer {
-  cursor: pointer;
+.nav-collapsed {
+  height: 0;
+  overflow: hidden;
 }
