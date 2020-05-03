@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ContentTree from '../ContentTree';
+import ContentTree from '../types/ContentTree';
 import TreeNode from './TreeNode';
 
 interface ITreeViewProps {

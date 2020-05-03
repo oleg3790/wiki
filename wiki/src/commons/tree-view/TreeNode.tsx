@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../styles/TreeView.scss';
 import '../../styles/App.scss';
 import { Link } from 'react-router-dom';
-import ContentTree from '../ContentTree';
+import ContentTree from '../types/ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { getNavNodeCollapsedState, cacheNavNodeCollapsedState } from '../../services/LocalCacheService';
