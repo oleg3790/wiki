@@ -1,6 +1,4 @@
 import * as React from 'react';
-import '../../styles/TreeView.scss';
-import '../../styles/App.scss';
 import { NavLink } from 'react-router-dom';
 import ContentTree from '../types/ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -61,6 +59,6 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
   }
 
   recurseChildren = (childrenNodes: ContentTree[]) => {
-    return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "tv-collapsed"}`}/>)
+    return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "nav-collapsed"}`}/>)
   }
 }

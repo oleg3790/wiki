@@ -55,15 +55,21 @@ pre {
   width: 100%;
 }
 
-.node-details {
-  overflow-y: auto;
-  height: calc(100vh - 100px);
-}
-
 .pointer {
   cursor: pointer;
 }
 
 .selected-nav-link {
   font-weight: bold;
+}
+
+// Nav styles
+.nav-details {
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+}
+
+.nav-collapsed {
+  height: 0;
+  overflow: hidden;
 }
