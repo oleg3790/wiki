@@ -1,43 +1,33 @@
 If you want to setup an authentication schema to be able to prevent access to certain data, one of the most common ways to do it is with JWT Bearer tokens. 
 
 ## Setup 
-Add the highlighted to your Startup.cs
+Add a static class with the highlighted to your project, and call `services.AddJwtAuthentication(Configuration)` from Startup.cs
 
 ```c#
-public void ConfigureServices(IServiceCollection services)
+public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
 {
-    services.AddMvc()
-        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-        .AddJsonOptions(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-    services.AddCors();
+    var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("authSecret"));
 
-
-    // Auth setup
-    var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("authSecret"));
-    services.AddAuthentication(x =>
-    {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(x =>
-    {
-        x.RequireHttpsMetadata = false;
-        x.SaveToken = true;
-        x.TokenValidationParameters = new TokenValidationParameters
+    services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
 
-    services.AddSpaStaticFiles(configuration =>
-    {
-        configuration.RootPath = "Client/operations-launch-tracker/build";
-    });
+    return services;
 }
 ```
+
+Add `app.UseAuthentication();` (like below) to the Config method in Startup.cs
 
 ```c#
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -84,7 +74,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ```
 
 ## Usage
-You will need to add a key "authSecret" with a value that will act as the authentication key to your config file (usually kept in a secrets config file, not checked into source control)
+You will need to add a key "authSecret" with a value that will act as the authentication key to your config file (usually kept in a secrets config file, not checked into source control - [setup found here](http://wiki.olegkrysko.com/#/additional-config-files))
 
 Add the attribute `[Authorize]` to the controller class you would like to activate authentication for. 
 
