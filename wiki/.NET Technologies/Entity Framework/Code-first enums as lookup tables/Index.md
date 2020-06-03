@@ -3,64 +3,46 @@ Many applications need static data that act as identifiers for other sets of dat
 First, we need to setup the lookup base class that will contain the ID and value/name of the static data record, along with a generic method that can be used to seed the database with all values from code:
 
 ```
-public class LookupBase
+public abstract class LookupBase<TConcrete, TEnumLookup> where TConcrete : LookupBase<TConcrete, TEnumLookup>, new() where TEnumLookup : Enum
 {
-    [Key]
     public int Id { get; set; }
 
-    [MinLength(2), MaxLength(100)]
     public string Name { get; set; }
 
-    protected static T[] Seed<T, TEnum>() where T : LookupBase, new()
+    public static IEnumerable<TConcrete> Seed()
     {
-        List<T> data = new List<T>();
-        foreach (var x in Enum.GetValues(typeof(TEnum)))
+        foreach (var x in Enum.GetValues(typeof(TEnumLookup)))
         {
-            data.Add(new T() { Id = (int)x, Name = x.ToString() });
+            yield return new TConcrete { Id = (int)x, Name = x.ToString() };
         }
-        return data.ToArray();
     }
 }
 ```
 
-You can also leverage yield to avoid having to initiate a variable to hold the data
-
-```
-    protected static IEnumerable<T> Seed<T, TEnum>() where T : LookupBase, new()
-    {
-        foreach (var x in Enum.GetValues(typeof(TEnum)))
-        {
-            yield return new T() { Id = (int)x, Name = x.ToString() };
-        }
-    }
-```
-
-Next, we can create out enum along with a lookup class that will derive from the base class and add a method that calls the base seed method while declaring the types:
+Next, we can create an enum along with a lookup class that will inherit from the LookupBase class:
 **ENUMS NEED TO START WITH 1
 
 ```
-public enum TicketScopesLookup
+public enum TicketScopeLookup
 {
     Application = 1, 
     Database = 2
 }
 
-public class TicketScopes : LookupBase
-{
-    public static TicketScopes[] Seed() => Seed<TicketScopes, TicketScopesLookup>();
-}
+public class TicketScope : LookupBase<TicketScope, TicketScopeLookup>
+{ }
 ```
 
-Add a DbSet Property of the lookup type:
+In the EF DbContext class, add a DbSet property of the lookup class type:
 
 ```
-public DbSet<TicketScopes> TicketScopes {get; set;}
+public DbSet<TicketScope> TicketScopes {get; set;}
 ```
 
 Lastly, add this to the OnModelCreating method in your DbContext derived class:
 
 ```
-builder.Entity<TicketScopes>().HasData(TicketScopes.Seed());
+builder.Entity<TicketScope>().HasData(TicketScope.Seed());
 ```
 
 ##### Adding lookup relationship to another class
@@ -68,7 +50,7 @@ Add 2 properties to the class, one for the id and the other for the class refere
 
 ```
 public int TicketScopeId { get; set; } 
-public TicketScopes TicketScope { get; set; }
+public TicketScope TicketScope { get; set; }
 ```
 
 If the name of the property is something different then the class name, add a `[ForeignKey(string name)]` decorator on top of the id member
