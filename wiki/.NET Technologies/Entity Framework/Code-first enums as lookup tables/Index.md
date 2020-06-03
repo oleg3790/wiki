@@ -23,6 +23,18 @@ public class LookupBase
 }
 ```
 
+You can also leverage yield to avoid having to initiate a variable to hold the data
+
+```
+    protected static IEnumerable<T> Seed<T, TEnum>() where T : LookupBase, new()
+    {
+        foreach (var x in Enum.GetValues(typeof(TEnum)))
+        {
+            yield return new T() { Id = (int)x, Name = x.ToString() };
+        }
+    }
+```
+
 Next, we can create out enum along with a lookup class that will derive from the base class and add a method that calls the base seed method while declaring the types:
 **ENUMS NEED TO START WITH 1
 
