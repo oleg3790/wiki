@@ -1,4 +1,4 @@
-Many applications need static data that act as identifiers for other sets of data. When using EF, we can utilize enums as the context of the statuses and create lookup classes that derive from a base class that will auto-seed data from the enum for us when creating the database.
+Many applications need static data that act as identifiers for other sets of data. When using EF, we can utilize enums as the context of the statuses and create lookup classes that derive from a base class used to auto-seed data from the enum for us when creating the database.
 
 First, we need to setup the lookup base class that will contain the ID and value/name of the static data record, along with a generic method that can be used to seed the database with all values from code:
 
@@ -27,7 +27,7 @@ Next, we can create out enum along with a lookup class that will derive from the
 **ENUMS NEED TO START WITH 1
 
 ```
-public enum TicketScopesEnum
+public enum TicketScopesLookup
 {
     Application = 1, 
     Database = 2
@@ -35,7 +35,7 @@ public enum TicketScopesEnum
 
 public class TicketScopes : LookupBase
 {
-    public static TicketScopes[] Seed() => Seed<TicketScopes, TicketScopesEnum>();
+    public static TicketScopes[] Seed() => Seed<TicketScopes, TicketScopesLookup>();
 }
 ```
 
