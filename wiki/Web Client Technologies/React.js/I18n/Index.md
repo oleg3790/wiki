@@ -48,6 +48,7 @@ Import the i18n file in your app/index:
 import './i18n'
 ```
 
+## Use via Translation component
 Add a `Translation` component that can get the `t` (translate function) and `i18n` (used to change the language) instance to your component
 
 ```
@@ -69,4 +70,26 @@ To change language call:
 
 ```
 i18n.changeLanguage('fr');
+```
+
+### Use via HOC (Higher order component)
+import the function `withTranslation`:
+
+```
+import { withTranslation } from 'react-i18next';
+```
+
+Wrap it around your component:
+
+```
+export default withTranslation()(YourComponent);
+```
+
+Both `t` and `i18n` will be passed from by props, so now this can be used by accessing it via props:
+
+```
+this.props.t('key')
+
+...
+this.props.i18n.changeLanguage('fr')
 ```
