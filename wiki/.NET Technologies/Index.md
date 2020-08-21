@@ -3,7 +3,7 @@
 
 #### CLR Services
 - Garbage Collection
-- Type Saftey
+- Type Safety
 - Memory Management
 - Exception Handling 
 - Thread Management

@@ -2,5 +2,6 @@
 ___
 ### .NET
 
-**Configuring options and scoped services**s
+**Configuring options and scoped services**
+
 https://andrewlock.net/the-dangers-and-gotchas-of-using-scoped-services-when-configuring-options-in-asp-net-core/
