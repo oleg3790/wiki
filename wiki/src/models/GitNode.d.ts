@@ -1,10 +1,10 @@
-export interface IContentNodeLinks {
+export interface IGitNodeLinks {
   Git: string;
   HTML: string;
   Self: string;
 }
 
-export interface IContentNode {
+export interface IGitNode {
   DownloadUrl: string;
   GitUrl: string;
   HTMLUrl: string;
@@ -20,7 +20,7 @@ export interface IContentNode {
 /**
  * Provides strong type and resolver for GitHub API data
  */
-export class ContentNode implements IContentNode {
+export class GitNode implements IGitNode {
   public readonly DownloadUrl: string;
   public readonly GitUrl: string;
   public readonly HTMLUrl: string;
