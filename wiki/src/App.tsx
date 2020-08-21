@@ -75,7 +75,7 @@ export default class App extends React.Component<any, IAppState> {
       if (node.downloadUrl && node.urlPath) {
         initialRoutes.push(
           <Route key={node.urlPath} path={`/${node.urlPath}`}
-            render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.downloadUrl}/>}/>);
+            render={(routeProps) => <NodeDetails {...routeProps} contentNode={node}/>}/>);
       }
 
       if (node.name.match(/home/i)) {
