@@ -28,6 +28,7 @@ You can use the cross-env package to pass set these env variables in the start s
 
 `"start": "cross-env HTTPS=true HOST=localhost.x.com PORT=8080 SSL_CRT_FILE=../dev_cert/localhost.x.com.pem SSL_KEY_FILE=../dev_cert/localhost.x.com-key.pem direflow-scripts start"`
 
+### Dev SSL certificate
 If you are using https and need to create a dev SSL certificate:
 
 1. Create a folder to store your cert files (ex. `dev_cert`) at the project root
