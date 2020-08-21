@@ -1,5 +1,5 @@
 ## Overview
-A multi-paradigm programming language (object-oriented, structured, imperative, functional, and more...) that uses string typing. C# is very similar to other C languages such as C and C++. 
+A multi-paradigm programming language (object-oriented, structured, imperative, functional, and more...). C# is similar to Java.
 
 #### Some Features:
 - Strongly typed
