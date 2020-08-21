@@ -21,7 +21,7 @@ export const setCacheValue = (cacheKey: string, valueKey: string, value: any): v
   let cacheObj: { [index: string]: any } = cacheObjString
     ? JSON.parse(cacheObjString)
     : {};
-  
+
   cacheObj[`"${valueKey}"`] = value;
 
   localStorage.setItem(cacheKey, JSON.stringify(cacheObj));

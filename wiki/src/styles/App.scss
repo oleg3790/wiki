@@ -4,6 +4,7 @@ $main-color: rgb(48, 50, 54);
 $code-bg-color: #2a274a;
 $csharp-code-bg-color: #214d3f;
 $busy-mask: #9090900a;
+$page-title: #1212c7;
 $font-size-base: 0.8rem;
 
 @import 'bootstrap';
@@ -61,6 +62,10 @@ pre {
 
 .selected-nav-link {
   font-weight: bold;
+}
+
+.page-title {
+  color: $page-title;
 }
 
 // Nav styles

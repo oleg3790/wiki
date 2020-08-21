@@ -1,12 +1,12 @@
 import React from 'react';
-import TreeView from './commons/tree-view/TreeView';
-import ContentTree from './commons/types/ContentTree';
+import TreeView from './components/tree-view/TreeView';
+import { IContentTreeNode } from './models/ContentTreeNode';
 
 interface INavigationProps {
-  contentTree: ContentTree;
+  contentTree: IContentTreeNode;
 }
 
-const Navigation = (props: INavigationProps): JSX.Element => {    
+const Navigation = (props: INavigationProps): JSX.Element => {
   return (
     <div id="navigation">
       <ul className="nav flex-column">
@@ -14,6 +14,6 @@ const Navigation = (props: INavigationProps): JSX.Element => {
       </ul>
     </div>
   );
-} 
+}
 
 export default Navigation;
