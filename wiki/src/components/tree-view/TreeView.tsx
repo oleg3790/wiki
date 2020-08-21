@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { IContentTree } from '../types/ContentTree';
+import { IContentTreeNode } from '../../models';
 import TreeNode from './TreeNode';
 import * as _ from 'lodash';
 
 interface ITreeViewProps {
-  contentTree: IContentTree
+  contentTree: IContentTreeNode
 }
 
 const TreeView = (props: ITreeViewProps) => {
   const { contentTree } = props;
 
-  const mapToTreeNodes = (contentTree: IContentTree): JSX.Element[] => {
+  const mapToTreeNodes = (contentTree: IContentTreeNode): JSX.Element[] => {
     const nodes = _.cloneDeep(contentTree.children);
 
     const homeIndex = nodes.findIndex(x => x.name.match(/\bhome\b/i))

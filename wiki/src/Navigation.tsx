@@ -1,9 +1,9 @@
 import React from 'react';
-import TreeView from './commons/tree-view/TreeView';
-import { IContentTree } from './commons/types/ContentTree';
+import TreeView from './components/tree-view/TreeView';
+import { IContentTreeNode } from './models/ContentTreeNode';
 
 interface INavigationProps {
-  contentTree: IContentTree;
+  contentTree: IContentTreeNode;
 }
 
 const Navigation = (props: INavigationProps): JSX.Element => {

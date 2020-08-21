@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { IContentTree } from './types/ContentTree';
+import { IContentTreeNode } from '../models';
 
 interface INodeDetailProps {
-  contentNode: IContentTree | null
+  contentNode: IContentTreeNode | null
 }
 
 interface INodeDetailState {

@@ -2,12 +2,12 @@ import React from 'react';
 import './styles/App.scss';
 import { HashRouter, Route, Redirect } from 'react-router-dom';
 import Layout from './Layout';
-import GitHubContentService from './commons/GitHubContentService';
-import { IContentTree } from './commons/types/ContentTree';
-import NodeDetails from './commons/NodeDetails';
+import GitHubContentService from './services/GitHubContentService';
+import { IContentTreeNode } from './models';
+import NodeDetails from './components/NodeDetails';
 
 interface IAppState {
-  contentTree: IContentTree;
+  contentTree: IContentTreeNode;
   isError: boolean;
   isBusy: boolean;
 }
@@ -70,7 +70,7 @@ export default class App extends React.Component<any, IAppState> {
    * @param content
    * @param initialRoutes Any initial routes to be passed
    */
-  mapRoutes = (contentTree: IContentTree, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
+  mapRoutes = (contentTree: IContentTreeNode, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
     contentTree.children.forEach(node => {
       if (node.downloadUrl && node.urlPath) {
         initialRoutes.push(

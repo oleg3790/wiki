@@ -20,7 +20,7 @@ export interface IContentNode {
 /**
  * Provides strong type and resolver for GitHub API data
  */
-export default class ContentNode implements IContentNode {
+export class ContentNode implements IContentNode {
   public readonly DownloadUrl: string;
   public readonly GitUrl: string;
   public readonly HTMLUrl: string;

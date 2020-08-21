@@ -1,6 +1,5 @@
 import Octokit from '@octokit/rest';
-import ContentNode from './types/ContentNode';
-import { IContentTree } from './types/ContentTree';
+import { ContentNode, IContentTreeNode } from '../models';
 
 export default class GitHubContentService {
   private readonly _octokit: Octokit;
@@ -18,7 +17,7 @@ export default class GitHubContentService {
   /**
    * Gets an object that models the site-content branch's content
    */
-  public async getSiteContentTree(): Promise<IContentTree> {
+  public async getSiteContentTree(): Promise<IContentTreeNode> {
     const nodes = await this._getContentNodes('wiki', 0, []);
     return nodes.length > 0 ? this._buildContentTree(nodes) : null;
   }
@@ -77,8 +76,8 @@ export default class GitHubContentService {
     }
   }
 
-  private _buildContentTree(nodes: ContentNode[]): IContentTree {
-    let contentTree: IContentTree = {
+  private _buildContentTree(nodes: ContentNode[]): IContentTreeNode {
+    let contentTree: IContentTreeNode = {
       name: null,
       downloadUrl: null,
       urlPath: null,
