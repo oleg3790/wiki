@@ -78,7 +78,7 @@ export default class App extends React.Component<any, IAppState> {
             render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.downloadUrl}/>}/>);
       }
 
-      if (node.urlPath.match(/home/i)) {
+      if (node.name.match(/home/i)) {
         initialRoutes.unshift(<Route key="//home//" path="/"><Redirect to={node.urlPath}/></Route>)
       }
 
