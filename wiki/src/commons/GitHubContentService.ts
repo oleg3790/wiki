@@ -1,6 +1,6 @@
 import Octokit from '@octokit/rest';
 import ContentNode from './types/ContentNode';
-import ContentTree from './types/ContentTree';
+import { IContentTree } from './types/ContentTree';
 
 export default class GitHubContentService {
   private readonly _octokit: Octokit;
@@ -18,7 +18,7 @@ export default class GitHubContentService {
   /**
    * Gets an object that models the site-content branch's content
    */
-  public async getSiteContentTree(): Promise<ContentTree> {
+  public async getSiteContentTree(): Promise<IContentTree> {
     const nodes = await this._getContentNodes('wiki', 0, []);
     return nodes.length > 0 ? this._buildContentTree(nodes) : null;
   }
@@ -29,7 +29,7 @@ export default class GitHubContentService {
    * @param contentCounter Used to remember count state during recursion
    * @param tmpResultObj Object used to hold the result during the build
    */
-  private async _getContentNodes(pathNode: string, contentCounter: number, initialContenNodes: ContentNode[]): Promise<ContentNode[]> {
+  private async _getContentNodes(pathNode: string, contentCounter: number, initialContentNodes: ContentNode[]): Promise<ContentNode[]> {
     try {
       const response = await this._octokit.repos.getContents({
         owner: this._owner,
@@ -49,36 +49,41 @@ export default class GitHubContentService {
 
         tmpWorkItems.forEach(workItem => {
           const contentNode = new ContentNode(workItem)
-          // Recusion exit condition: dont add existing nodes to collection
-          if (this._contentNodeExists(initialContenNodes, contentNode)) {
+          // Recursion exit condition: don't add existing nodes to collection
+          if (this._contentNodeExists(initialContentNodes, contentNode)) {
             exit = true;
             return;
           }
-          initialContenNodes.push(new ContentNode(workItem));
+          initialContentNodes.push(new ContentNode(workItem));
         });
 
         if (exit) {
-          return initialContenNodes;
+          return initialContentNodes;
         }
 
-        for (let i = contentCounter; i < initialContenNodes.length; i++) {
-          if (initialContenNodes[i].Type !== 'file') {
-            const encodedUri = encodeURIComponent(initialContenNodes[i].Path);
-            return await this._getContentNodes(encodedUri, i + 1, initialContenNodes);
+        for (let i = contentCounter; i < initialContentNodes.length; i++) {
+          if (initialContentNodes[i].Type !== 'file') {
+            const encodedUri = encodeURIComponent(initialContentNodes[i].Path);
+            return await this._getContentNodes(encodedUri, i + 1, initialContentNodes);
           }
         }
       } else {
         console.log(`GitHub API responded with ${response.status} with ${response.data.length} data elements`);
       }
-      return initialContenNodes;
+      return initialContentNodes;
     } catch (ex) {
       console.log(`GitHubContentService.doGetContents Error - ${ex.message}`);
       return [];
     }
   }
 
-  private _buildContentTree(nodes: ContentNode[]): ContentTree {
-    let contentTree: ContentTree = new ContentTree();
+  private _buildContentTree(nodes: ContentNode[]): IContentTree {
+    let contentTree: IContentTree = {
+      name: null,
+      downloadUrl: null,
+      urlPath: null,
+      children: []
+    };
 
     nodes
       .filter(n => n.Type === 'file')
@@ -116,11 +121,11 @@ export default class GitHubContentService {
 
   private _toUrlSafePath(pathElement: string): string {
     const regexReplacements = [
-      {from: /c#/g, to: 'c-sharp'},
+      {from: /#/g, to: 'sharp'},
       {from: /\.+/g, to: 'dot'},
       {from: /\s{2,}/g, to: ' '},
       {from: /[\s/\\]+/g, to: '-'},
-      {from: /[()+~=!@#$%^&*{}?]+/g, to: ''},
+      {from: /[()+~=!@$%^&*{}?]+/g, to: ''},
     ];
 
     regexReplacements.forEach(r => {

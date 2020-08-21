@@ -1,15 +1,15 @@
 import * as React from 'react';
-import ContentTree from '../types/ContentTree';
+import { IContentTree } from '../types/ContentTree';
 import TreeNode from './TreeNode';
 
 interface ITreeViewProps {
-  contentTree: ContentTree
+  contentTree: IContentTree
 }
 
 const TreeView = (props: ITreeViewProps) => {
   const { contentTree } = props;
 
-  const mapToTreeNodes = (contentTree: ContentTree): JSX.Element[] => {
+  const mapToTreeNodes = (contentTree: IContentTree): JSX.Element[] => {
     return contentTree.children.map(node => {
       return <TreeNode key={node.name} node={node} className="pl-0"/>;
     });

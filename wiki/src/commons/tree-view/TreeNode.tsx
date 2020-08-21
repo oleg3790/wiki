@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import ContentTree from '../types/ContentTree';
+import { IContentTree } from '../types/ContentTree';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { getNavNodeCollapsedState, cacheNavNodeCollapsedState } from '../../services/LocalCacheService';
 
 interface ITreeNodeProps {
-  node: ContentTree;
+  node: IContentTree;
   className?: string;
 }
 
@@ -58,7 +58,7 @@ export default class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeS
     return null;
   }
 
-  recurseChildren = (childrenNodes: ContentTree[]) => {
+  recurseChildren = (childrenNodes: IContentTree[]) => {
     return childrenNodes.map(node => <TreeNode key={node.name} node={node} className={`pl-4 ${this.state.collapsed && "nav-collapsed"}`}/>)
   }
 }

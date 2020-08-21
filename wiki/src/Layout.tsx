@@ -1,11 +1,11 @@
 import React from 'react';
 import Navigation from './Navigation';
 import logo from './images/logo.png';
-import ContentTree from './commons/types/ContentTree';
+import { IContentTree } from './commons/types/ContentTree';
 import BusyMask from './commons/BusyMask';
 
 interface ILayoutProps {
-  contentTree: ContentTree;
+  contentTree: IContentTree;
   children: JSX.Element|JSX.Element[];
   isBusy: boolean;
 }

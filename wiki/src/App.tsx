@@ -50,8 +50,7 @@ export default class App extends React.Component<any, IAppState> {
       const tree = await ghContentService.getSiteContentTree();
 
       if (tree == null) {
-        console.log('No tree content could be loaded');
-        throw null;
+        throw 'No tree content could be loaded';
       }
 
       this.setState({ contentTree: tree });
