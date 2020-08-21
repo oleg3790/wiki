@@ -1,6 +1,4 @@
-# Helpful Links
-___
-### .NET
+### dotNET
 
 **Configuring options and scoped services**
 
