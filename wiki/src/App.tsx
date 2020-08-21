@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/App.scss';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 import Layout from './Layout';
 import GitHubContentService from './commons/GitHubContentService';
 import { IContentTree } from './commons/types/ContentTree';
@@ -77,6 +77,11 @@ export default class App extends React.Component<any, IAppState> {
           <Route key={node.urlPath} path={`/${node.urlPath}`}
             render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.downloadUrl}/>}/>);
       }
+
+      if (node.urlPath.match(/home/i)) {
+        initialRoutes.unshift(<Route key="//home//" path="/"><Redirect to={node.urlPath}/></Route>)
+      }
+
       return this.mapRoutes(node, initialRoutes);
     });
     return initialRoutes;
