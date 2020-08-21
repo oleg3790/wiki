@@ -6,7 +6,7 @@ interface INavigationProps {
   contentTree: ContentTree;
 }
 
-const Navigation = (props: INavigationProps): JSX.Element => {    
+const Navigation = (props: INavigationProps): JSX.Element => {
   return (
     <div id="navigation">
       <ul className="nav flex-column">
@@ -14,6 +14,6 @@ const Navigation = (props: INavigationProps): JSX.Element => {
       </ul>
     </div>
   );
-} 
+}
 
 export default Navigation;

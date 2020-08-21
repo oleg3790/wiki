@@ -36,7 +36,7 @@ export default class App extends React.Component<any, IAppState> {
             'Content-Type': 'text/plain'
           }
         });
-    
+
         if (authResponse.status == 200) {
           ghAuth = await authResponse.text();
           localStorage.setItem('auth', ghAuth);
@@ -68,16 +68,16 @@ export default class App extends React.Component<any, IAppState> {
 
   /**
    * Recursively maps routes, using the content tree
-   * @param content 
-   * @param initialRoutes Any initial routes to be passed 
+   * @param content
+   * @param initialRoutes Any initial routes to be passed
    */
   mapRoutes = (contentTree: IContentTree, initialRoutes: JSX.Element[] = []): JSX.Element[] => {
     contentTree.children.forEach(node => {
       if (node.downloadUrl && node.urlPath) {
         initialRoutes.push(
-          <Route key={node.urlPath} path={`/${node.urlPath}`} 
+          <Route key={node.urlPath} path={`/${node.urlPath}`}
             render={(routeProps) => <NodeDetails {...routeProps} contentUrl={node.downloadUrl}/>}/>);
-      }        
+      }
       return this.mapRoutes(node, initialRoutes);
     });
     return initialRoutes;
@@ -89,8 +89,8 @@ export default class App extends React.Component<any, IAppState> {
       <HashRouter basename="/">
         <Layout contentTree={contentTree} isBusy={isBusy}>
           <div>
-            {isError 
-              ? <h6 className="text-danger">Could not load content, try again later</h6> 
+            {isError
+              ? <h6 className="text-danger">Could not load content, try again later</h6>
               : (contentTree && this.mapRoutes(contentTree))}
           </div>
         </Layout>
