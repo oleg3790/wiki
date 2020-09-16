@@ -1,8 +1,8 @@
 ### Overview
-Webpack is a development tool used to package and bundle web front-end code. It allows developers to write thier code in a specific format or using a web standard and use use Webpack to standardize the code into a format that will be easily and efficiently loaded in a web browser.
+Webpack is a development tool used to package and bundle web front-end code. It allows developers to write their code in a specific format or using a web standard and use Webpack to standardize the code into a format that will be easily and efficiently loaded in a web browser.
 
 ### Webpack dev server
-If you are using the development server that Webpack provides, you can develop your project in an independenly manner and still connect to your API's and resources at runtime
+If you are using the development server that Webpack provides, you can develop your project in an independently manner and still connect to your API's and resources at runtime
 
 
 #### Proxy
