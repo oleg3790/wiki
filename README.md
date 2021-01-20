@@ -4,6 +4,8 @@ This solution uses React w/Typescript to build a GitHub Pages site that renders 
 ## What problem does this solve
 Having a simple (blog, wiki, etc.) GH Pages site with a tree navigation is somewhat of a hassle to maintain as seperate HTML files. If you want to host a site with GH Pages and leverage the Markdown syntax, while at the same time, add content to the site without creating new html files; this solution solves that problem. Markdown syntax and HTML is supported inside the `Index.md` file which allows you to add content to the `site-content` branch directly. You also obtain GitHub's history tracking for site content for free with the use of this framework.
 
+*This is similar to the new GitHub Pages automatic page generator - except you have full control over the site theme and code*
+
 ## Site content model
 Given that this solution will look at a `site-content` branch in the repo in which it is tied to, you will need to manually instantiate that branch and setup the layout to model the below structure. Each node in the site navigation is associated with a directory name for which the associated content should be an `Index.md` file. 
 
