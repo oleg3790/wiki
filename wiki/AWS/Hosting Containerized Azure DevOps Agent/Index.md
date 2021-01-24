@@ -52,4 +52,6 @@ The agent start script requires that you pass a couple of arguments in the form 
 - AZP_POOL - If not specified it will default to the **Default** pool, otherwise you can create your own pool via the Azure DevOps console
 - AZP_AGENT_NAME - If not specified it will default to the container's host name, otherwise you can provide your own name.
 
-After the task definition has been created, you can go into you ECS cluster and navigate to tasks >> Run a task >> then configure the task from the task definition you created. It will take a bit for the container to start up, open up the Azure DevOps Agent Pool settings, navigate to the agent pool you used, and you should see an agent that is online under the agents tab.
+To test and make sure your task definition works you can go into you ECS cluster and navigate to tasks >> Run a task >> then configure the task from the task definition you created. It will take a bit for the container to start up, open up the Azure DevOps Agent Pool settings, navigate to the agent pool you used, and you should see an agent that is online under the agents tab.
+
+To provision a long-running instance of your task, create an ECS service that runs your task.
