@@ -6,6 +6,6 @@ https://andrewlock.net/the-dangers-and-gotchas-of-using-scoped-services-when-con
 
 **AWS Aurora Serverless Best Practices**
 
-The article also includes steps to configure an EC@ jump box for a DB instance in a private subnet
+The article also includes steps to configure an EC2 jump box for a DB instance in a private subnet
 
 https://aws.amazon.com/blogs/database/best-practices-for-working-with-amazon-aurora-serverless/
